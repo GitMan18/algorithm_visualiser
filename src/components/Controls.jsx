@@ -1,10 +1,10 @@
 import React from "react";
 
-const Controls = ({ resetArray, startBubbleSort, sorting }) => {
+const Controls = ({ resetArray, startSorting, sorting }) => {
     return (
-        <div>
+        <div className="controls">
             <button onClick={resetArray} disabled={sorting}>Generate New Array</button>
-            <button onClick={startBubbleSort} disabled={sorting}>Bubble Sort</button>
+            <button onClick={startSorting} disabled={sorting}>Start Sorting</button>
         </div>
     );
 };
