@@ -7,12 +7,14 @@ import { bogoSort } from "../algorithms/bogoSort";
 import SortingBar from "./SortingBar";
 import Controls from "./Controls";
 
+//quantum bog sort
 const SortingVisualiser = () => {
     const [array, setArray] = useState([]);
     const [sorting, setSorting] = useState(false);
     const [activeIndices, setActiveIndices] = useState([]);
     const [algorithm, setAlgorithm] = useState("bubbleSort");
     const [bogoFailed, setBogoFailed] = useState(false);
+    const [qBogoEnd, setqBogoEnd] = useState(false);
 
     useEffect(() => {
         resetArray();
@@ -40,6 +42,12 @@ const SortingVisualiser = () => {
         if (sorting) return;
 
         setTimeout(() => {
+            if (algorithm === "quantumBogoSort") {
+                const sortedArray = [...array].sort((a, b) => a - b); // instant sort
+                setArray(sortedArray);
+                setqBogoEnd(true); // show fun message
+                return;
+            }
             setSorting(true);
             let animations = [];
 
@@ -64,6 +72,7 @@ const SortingVisualiser = () => {
                     const result = bogoSort(array);
                     animations = result.animations;
                     break;
+                    
                 default:
                     setBogoFailed(false);
                     animations = bubbleSort(array);
@@ -133,6 +142,7 @@ const SortingVisualiser = () => {
                 <option value="selectionSort">Selection Sort</option>
                 <option value="quickSort">Quick Sort</option>
                 <option value="bogoSort">Bogo Sort</option>
+                <option value="quantumBogoSort">Quantum Bogo Sort</option>
             </select>
 
             <Controls resetArray={resetArray} startSorting={startSorting} sorting={sorting} />
@@ -151,6 +161,11 @@ const SortingVisualiser = () => {
             {bogoFailed && (
                 <p style={{ color: "red", marginTop: "10px" }}>
                     Bogo Sort failed to sort in 100 attempts.
+                </p>
+            )}
+            {algorithm === "quantumBogoSort" && qBogoEnd && (
+                <p style={{ color: "purple", marginTop: "10px" }}>
+                    Quantum Bogo Sort instantly found the solution in a parallel universe 💫
                 </p>
             )}
         </div>
